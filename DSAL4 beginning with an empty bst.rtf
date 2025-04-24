@@ -1,0 +1,444 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.22621}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\qc\b\f0\fs28\lang9 Practical 4\par
+
+\pard\sa200\sl276\slmult1\fs22 Input:\par
+\b0 #include <iostream>\par
+using namespace std;\par
+class node\par
+\{\par
+public:\par
+    int data;\par
+    node *left;\par
+    node *right;\par
+\};\par
+class bst\par
+\{\par
+public:\par
+    node *root;\par
+    bst()\par
+    \{\par
+        root = NULL;\par
+    \}\par
+    void create();\par
+    void insert();\par
+    void postorder(node *);\par
+    void inorder(node *);\par
+    void preorder(node *);\par
+    void search(int key);\par
+    void minimum();\par
+    int height(node *);\par
+\};\par
+void bst::minimum()\par
+\{\par
+    node *temp;\par
+    int min;\par
+    temp = root;\par
+    while (temp->left != NULL)\par
+    \{\par
+        min = temp->data;\par
+        temp = temp->left;\par
+        if (temp->data < min)\par
+        \{\par
+            min = temp->data;\par
+        \}\par
+        else\par
+        \{\par
+            temp = temp->left;\par
+        \}\par
+    \}\par
+    cout << "minimum no. is:" << min;\par
+\}\par
+int bst::height(node *root)\par
+\{\par
+    if (root == NULL)\par
+    \{\par
+        return 0;\par
+    \}\par
+    else\par
+    \{\par
+        if (height(root->right) > height(root->left))\par
+        \{\par
+            return (1 + height(root->right));\par
+        \}\par
+        else\par
+        \{\par
+            return (1 + height(root->left));\par
+        \}\par
+    \}\par
+\}\par
+void bst::create()\par
+\{\par
+    node *curr, *temp;\par
+    int ans = 1;\par
+    cout << "enter data:";\par
+    do\par
+    \{\par
+        curr = new node;\par
+        cin >> curr->data;\par
+        curr->left = curr->right = NULL;\par
+        if (root == NULL)\par
+        \{\par
+            root = curr;\par
+        \}\par
+        else\par
+        \{\par
+            temp = root;\par
+            while (1)\par
+            \{\par
+                if (curr->data <= temp->data)\par
+                \{\par
+                    if (temp->left == NULL)\par
+                    \{\par
+                        temp->left = curr;\par
+                        break;\par
+                    \}\par
+                    else\par
+                    \{\par
+                        temp = temp->left;\par
+                    \}\par
+                \}\par
+                else\par
+                \{\par
+                    if (temp->right == NULL)\par
+                    \{\par
+                        temp->right = curr;\par
+                        break;\par
+                    \}\par
+                    else\par
+                    \{\par
+                        temp = temp->right;\par
+                    \}\par
+                \}\par
+            \}\par
+        \}\par
+        cout << "want to continue:";\par
+        cin >> ans;\par
+    \} while (ans == 1);\par
+\}\par
+void bst::inorder(node *root)\par
+\{\par
+    if (root != NULL)\par
+    \{\par
+        inorder(root->left);\par
+        cout << " " << root->data;\par
+        inorder(root->right);\par
+    \}\par
+\}\par
+void bst::preorder(node *root)\par
+\{\par
+    if (root != NULL)\par
+    \{\par
+        cout << " " << root->data;\par
+        preorder(root->left);\par
+        preorder(root->right);\par
+    \}\par
+\}\par
+void bst::postorder(node *root)\par
+\{\par
+    if (root != NULL)\par
+    \{\par
+        postorder(root->left);\par
+        postorder(root->right);\par
+        cout << " " << root->data;\par
+    \}\par
+\}\par
+void bst::insert()\par
+\{\par
+    node *curr, *temp;\par
+    int ans = 1;\par
+    cout << "enter data:";\par
+    curr = new node;\par
+    cin >> curr->data;\par
+    curr->left = curr->right = NULL;\par
+    if (root == NULL)\par
+    \{\par
+        root = curr;\par
+    \}\par
+    else\par
+    \{\par
+        temp = root;\par
+        while (1)\par
+        \{\par
+            if (curr->data <= temp->data)\par
+            \{\par
+                if (temp->left == NULL)\par
+                \{\par
+                    temp->left = curr;\par
+                    break;\par
+                \}\par
+                else\par
+                \{\par
+                    temp = temp->left;\par
+                \}\par
+            \}\par
+            else\par
+            \{\par
+                if (temp->right == NULL)\par
+                \{\par
+                    temp->right = curr;\par
+                    break;\par
+                \}\par
+                else\par
+                \{\par
+                    temp = temp->right;\par
+                \}\par
+            \}\par
+        \}\par
+    \}\par
+\}\par
+void bst::search(int key)\par
+\{\par
+    node *curr;\par
+    curr = root;\par
+    while (curr != NULL)\par
+    \{\par
+        if (curr->data == key)\par
+        \{\par
+            cout << "found";\par
+            break;\par
+        \}\par
+        else\par
+        \{\par
+            if (key < curr->data)\par
+            \{\par
+                curr = curr->left;\par
+            \}\par
+            else\par
+            \{\par
+                curr = curr->right;\par
+            \}\par
+        \}\par
+    \}\par
+    if (curr == NULL)\par
+    \{\par
+        cout << "not found";\par
+    \}\par
+\}\par
+int main()\par
+\{\par
+    bst b;\par
+    int key, ch;\par
+    do\par
+    \{\par
+        cout << "\\n1. Create\\n2. Insert\\n3. Inorder\\n4. Preorder\\n5. Postorder\\n6. Search\\n7. Minimum\\n8. Height\\nPress 0 to exit\\n";\par
+        cout << "Enter your choice: ";\par
+\par
+        cin >> ch;\par
+        switch (ch)\par
+        \{\par
+        case 1:\par
+            b.create();\par
+            break;\par
+        case 2:\par
+            b.insert();\par
+            break;\par
+        case 3:\par
+            cout << "inorder traversal is\\n";\par
+            b.inorder(b.root);\par
+            break;\par
+        case 4:\par
+            cout << "preorder traversal is\\n";\par
+            b.preorder(b.root);\par
+            break;\par
+        case 5:\par
+            cout << "postorder traversal is\\n";\par
+            b.postorder(b.root);\par
+            break;\par
+        case 6:\par
+            cout << "\\nenter key:";\par
+            cin >> key;\par
+            b.search(key);\par
+            break;\par
+        case 7:\par
+            b.minimum();\par
+            break;\par
+        case 8:\par
+            cout << "height of tree: " << b.height(b.root);\par
+            break;\par
+        \}\par
+    \} while (ch != 0);\par
+    return 0;\par
+\}\par
+\b Output:\par
+\b0\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 1\par
+enter data:24\par
+want to continue:0\par
+\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 2\par
+enter data:24\par
+\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 2\par
+enter data:25\par
+\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 2\par
+enter data:13\par
+\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 2\par
+enter data:89\par
+\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 2\par
+enter data:36\par
+\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 2\par
+enter data:41\par
+\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 2\par
+enter data:0\par
+\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 3\par
+inorder traversal is\par
+ 0 13 24 24 25 36 41 89\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 4\par
+preorder traversal is\par
+ 24 24 13 0 25 89 36 41\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 5\par
+postorder traversal is\par
+ 0 13 24 41 36 89 25 24\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 6\par
+\par
+enter key:23\par
+not found\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 7\par
+minimum no. is:0\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 8\par
+height of tree: 5\par
+1. Create\par
+2. Insert\par
+3. Inorder\par
+4. Preorder\par
+5. Postorder\par
+6. Search\par
+7. Minimum\par
+8. Height\par
+Press 0 to exit\par
+Enter your choice: 0\par
+}
+ 
